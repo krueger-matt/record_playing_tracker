@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% set active_page = "my_records" %}
+
+{% block content %}
+
+<div class="container-fluid" style="padding-bottom: 15px; padding-top: 10px;">
+    <a class="btn btn-primary mt-2">Add Record</a>
+    <a class="btn btn-success mt-2">Delete Record</a>
+    <a class="btn btn-outline-secondary mt-2" href="{{ url_for('my_records_detail') }}">More Detail</a>
+</div>
+
+<table class="table table-striped sticky-header">
+    <thead>
+        <tr>
+            <th>Play Record</th>
+            <th>Un-Play Record</th>
+            <th>Artist Name</th>
+            <th>Album Name</th>
+            <th>Play Count</th>
+            <th>Last Played</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in rows %}
+            <tr>
+                <td><a href="{{ url_for('listen_to_record', id=item[0]) }}" class=""><img src="/static/record.png" class="rounded p-1" height="30"></a></td>
+                <td><a href="{{ url_for('un_listen_to_record', id=item[0]) }}" class=""><img src="/static/un_play.png" class="rounded p-1" height="30"></a></td>
+                <td> {{ item[1] }} </td>
+                <td> {{ item[2] }} </td>
+                <td> {{ item[3] }} </td>
+                <td> {{ item[4] }} </td>
+            </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+
+
+{% endblock %}
