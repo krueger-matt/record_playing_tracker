@@ -17,6 +17,8 @@ app.config['SECRET_KEY'] = SECRET_KEY
 def hello_world():
     return 'Hello, world!'
 
+
+
 @app.route('/', methods=['GET', 'POST'])  # root : main page
 def index():
 
@@ -30,12 +32,16 @@ def index():
 
     return render_template('index.html', **data)
 
+
+
 @app.route('/my_records/')
 def my_records():
     (columns, rows) = functions.read_all('records')
     for row in rows:
         print(row)
     return render_template('my_records.html', columns=columns, rows=rows)
+
+
 
 @app.route('/my_records_detail/')
 def my_records_detail():
@@ -44,17 +50,23 @@ def my_records_detail():
         print(row)
     return render_template('my_records_detail.html', columns=columns, rows=rows)
 
+
+
 @app.route('/listen_to_record/<id>')
 def listen_to_record(id):
     functions.listen(id)
     sleep(1)
     return redirect(url_for('my_records'))
 
+
+
 @app.route('/un_listen_to_record/<id>')
 def un_listen_to_record(id):
     functions.un_listen(id)
     sleep(1)
     return redirect(url_for('my_records'))
+
+
 
 @app.route('/edit_record/<id>', methods=['GET', 'POST'])
 def edit_record(id):
@@ -84,6 +96,27 @@ def edit_record(id):
         return redirect(url_for('my_records_detail'))
 
     return render_template('edit_record.html', form=form, id=id, row=row)
+
+
+@app.route('/add_record/', methods=['GET', 'POST'])
+def add_record(): 
+
+    form = forms.AddRecord(
+        artist_name='',
+        album_name='',
+        genre='',
+        ignore='',
+        release_type='')
+
+    if form.is_submitted():
+        result = functions.get_form_data(list(request.form.values()))
+        print (result)
+        functions.add_record(result)
+        return redirect(url_for('my_records'))
+
+    return render_template('add_record.html', form=form)
+
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

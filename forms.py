@@ -15,3 +15,13 @@ class EditRecord(FlaskForm):
     ignore = wt5.IntegerField('Ignore?')
     release_type = wt.StringField('Release Type')
     submit = wt.SubmitField('Update')
+
+
+
+class AddRecord(FlaskForm):
+    artist_name = wt.StringField('Artist Name')
+    album_name = wt.StringField('Album Name')
+    genre = wt.StringField('Genre')
+    ignore = wt5.IntegerField('Ignore?')
+    release_type = wt.StringField('Release Type')
+    submit = wt.SubmitField('Update')

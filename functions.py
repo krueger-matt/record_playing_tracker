@@ -144,7 +144,6 @@ def read_row(database, table, id):
 
 def update_record(id, new_values):
 
-    print('----Starting update plant----')
     # cur.execute can only take 2 arguments so we need to add the ID to the list
     print(new_values)
 
@@ -164,6 +163,18 @@ def update_record(id, new_values):
                 'ignore = ?,'
                 'release_type = ?'
                 'WHERE ID = ?', new_values)
+
+    con.commit()
+    con.close()
+
+
+
+def add_record(new_values):
+
+    con = sqlite3.connect(config.DB_NAME)
+    cur = con.cursor()
+
+    cur.execute('INSERT INTO records (artist_name, album_name, genre, ignore, release_type) VALUES (?,?,?,?,?)', new_values)
 
     con.commit()
     con.close()

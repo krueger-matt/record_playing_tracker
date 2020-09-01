@@ -1,15 +1,11 @@
 {% extends "base.html" %}
-{% set active_page = "edit_record" %}
+{% set active_page = "add_record" %}
 
 {% block content %}
 
-<div class="container-fluid" style="padding-bottom: 15px; padding-top: 10px;">
-    <a class="btn btn-warning mt-2"  href="{{ url_for('my_records_detail') }}">Back</a>
-</div>
-
 <div class="container-fluid">
 
-    <h4 class="mb-3 text-secondary">Edit Record #{{ id }} {{ row[1] }}</h4>
+    <h4 class="mb-3 text-secondary">Add Record</h4>
 
     <form method="post" autocomplete="off" enctype="multipart/form-data">
         {% for field in form if (field.name != 'csrf_token') and (field.name != 'submit') %}
@@ -20,7 +16,7 @@
         {% endfor %}
 
         <div class="row">
-            <div class="col-sm">{{ form.submit(class="btn btn-primary") }}</div>
+            <div class="col-sm">{{ form.submit(class="btn btn-primary", value="Submit") }}</div>
         </div>
 
     </form>
