@@ -13,4 +13,5 @@ class EditRecord(FlaskForm):
     play_count = wt5.IntegerField('Play Count')
     last_played = wt5.DateField('Last Played', format='%Y-%m-%d')
     ignore = wt5.IntegerField('Ignore?')
+    release_type = wt.StringField('Release Type')
     submit = wt.SubmitField('Update')

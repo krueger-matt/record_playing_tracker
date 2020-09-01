@@ -74,7 +74,8 @@ def edit_record(id):
         genre=row[3],
         play_count=row[4],
         last_played=last_played,
-        ignore=row[6])
+        ignore=row[6],
+        release_type=row[8])
 
     if form.is_submitted():
         result = functions.get_form_data(list(request.form.values()))

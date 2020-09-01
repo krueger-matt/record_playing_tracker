@@ -10,8 +10,7 @@ def read_all(table):
     cur.execute('PRAGMA table_info(' + str(table) + ')')
     columns = cur.fetchall()
 
-    # returns a tuple of table names in this database
-    cur.execute('SELECT id, artist_name, album_name, play_count, last_played FROM ' + str(table) + ' order by artist_name, id')
+    cur.execute('SELECT id, artist_name, album_name, play_count, last_played FROM ' + str(table) + ' order by id')
 
     # returns list of rows
     rows = list(cur.fetchall())
@@ -162,7 +161,8 @@ def update_record(id, new_values):
                 'genre = ?,'
                 'play_count = ?,'
                 'last_played = ?,'
-                'ignore = ?'
+                'ignore = ?,'
+                'release_type = ?'
                 'WHERE ID = ?', new_values)
 
     con.commit()
