@@ -13,24 +13,11 @@ app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
-@app.route('/')
-def hello_world():
-    return 'Hello, world!'
 
 
-
-@app.route('/', methods=['GET', 'POST'])  # root : main page
+@app.route('/')  # root : main page
 def index():
-
-    f_name = name.replace('_', '')
-    f_location = location.replace('_', '')
-
-    data = {
-        'name': f_name,
-        'location': f_location
-    }
-
-    return render_template('index.html', **data)
+    return render_template('index.html')
 
 
 
@@ -98,6 +85,7 @@ def edit_record(id):
     return render_template('edit_record.html', form=form, id=id, row=row)
 
 
+
 @app.route('/add_record/', methods=['GET', 'POST'])
 def add_record(): 
 
@@ -115,6 +103,14 @@ def add_record():
         return redirect(url_for('my_records'))
 
     return render_template('add_record.html', form=form)
+
+
+
+@app.route('/delete_record/<id>', methods=['GET', 'POST'])
+def delete_record(id):
+    functions.delete_record(id)
+    sleep(1)
+    return redirect(url_for('my_records_detail'))
 
 
 

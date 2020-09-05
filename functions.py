@@ -181,6 +181,15 @@ def add_record(new_values):
 
 
 
+def delete_record(id):
+    con = sqlite3.connect(config.DB_NAME)
+    cur = con.cursor()
+    cur.execute('DELETE FROM records WHERE id = ?', [id])    
+    con.commit()
+    con.close()
+
+
+
 def get_form_data(in_list):
 
     output = []
