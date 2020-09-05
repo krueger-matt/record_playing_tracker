@@ -80,7 +80,7 @@ def edit_record(id):
         result = functions.get_form_data(list(request.form.values()))
         print (result)
         functions.update_record(id, result)
-        return redirect(url_for('my_records_detail'))
+        return redirect(url_for('my_records_detail',_anchor=id))
 
     return render_template('edit_record.html', form=form, id=id, row=row)
 

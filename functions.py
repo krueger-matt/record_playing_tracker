@@ -73,6 +73,8 @@ def listen(id):
     cur.execute('UPDATE records SET play_count = ?, last_played = ? WHERE ID = ?',
                 [new_play_count, datetime.today().strftime('%Y-%m-%d'), id])
 
+    cur.execute('INSERT INTO play_tracker (record_id, played_at, updated_at) values (?, ?, ?)', [int(id),datetime.now(),datetime.now()])
+
     con.commit()
     con.close()
 
@@ -95,8 +97,9 @@ def un_listen(id):
 
     print (new_play_count)
 
-    cur.execute('UPDATE records SET play_count = ?, last_played = ? WHERE ID = ?',
-                [new_play_count, datetime.today().strftime('%Y-%m-%d'), id])
+    cur.execute('UPDATE play_tracker set deleted = 1, updated_at = ? where id = (SELECT max(id) FROM play_tracker WHERE record_id = ? and deleted is null)', [datetime.now(), int(id)])
+
+    cur.execute('UPDATE records SET play_count = ?, last_played = (SELECT max(played_at) from play_tracker where deleted is null and record_id = ?) WHERE id = ?', [new_play_count, int(id), int(id)])
 
     con.commit()
     con.close()
