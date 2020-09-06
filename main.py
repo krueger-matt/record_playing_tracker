@@ -24,8 +24,6 @@ def index():
 @app.route('/my_records/')
 def my_records():
     (columns, rows) = functions.read_all('records')
-    for row in rows:
-        print(row)
     return render_template('my_records.html', columns=columns, rows=rows)
 
 
@@ -33,8 +31,6 @@ def my_records():
 @app.route('/my_records_detail/')
 def my_records_detail():
     (columns, rows) = functions.my_records_detail('records')
-    for row in rows:
-        print(row)
     return render_template('my_records_detail.html', columns=columns, rows=rows)
 
 
@@ -143,6 +139,33 @@ def stats():
 
     return render_template('stats.html', rows=rows, genre_output=genre_output)
 
+
+
+@app.route('/filters/', methods=['GET', 'POST'])
+def filters():
+
+    form = forms.Filters(
+        column_name='',
+        row_value='')
+
+    if form.is_submitted():
+        result = functions.get_form_data(list(request.form.values()))
+        print ("result: " + str(result))
+        return redirect(url_for('my_records_filtered', result=result))
+
+    return render_template('filters.html', form=form)
+
+
+
+@app.route('/my_records_filtered/<result>', methods=['GET', 'POST'])
+def my_records_filtered(result):
+
+    print("My Records Filtered Result: " + str(result))
+
+    (columns, rows) = functions.read_all_filtered(result)
+    for row in rows:
+        print(row)
+    return render_template('my_records_filtered.html', columns=columns, rows=rows)
 
 
 if __name__ == '__main__':

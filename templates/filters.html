@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% set active_page = "filters" %}
+
+{% block content %}
+
+<div class="container-fluid" style="padding-bottom: 15px; padding-top: 10px;">
+    <h4 class="mb-3 text-secondary">Filter</h4>
+
+<div class="container-fluid">
+
+    <form method="post" autocomplete="off" enctype="multipart/form-data">
+        {% for field in form if (field.name != 'csrf_token') and (field.name != 'submit') %}
+            <div class="form row">
+                <div class="col"><label class="form-label"> {{ field.label() }} </label></div>
+                <div class="col"> {{ field(class="form-control") }} </div>
+            </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-sm">{{ form.submit(class="btn btn-primary") }}</div>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

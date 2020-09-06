@@ -10,7 +10,7 @@ def read_all(table):
     cur.execute('PRAGMA table_info(' + str(table) + ')')
     columns = cur.fetchall()
 
-    cur.execute('SELECT id, artist_name, album_name, play_count, last_played FROM ' + str(table) + ' order by id')
+    cur.execute('SELECT id, artist_name, album_name, play_count, last_played FROM ' + str(table) + ' ORDER BY id')
 
     # returns list of rows
     rows = list(cur.fetchall())
@@ -227,7 +227,7 @@ def top_five_records():
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
 
-    cur.execute('SELECT artist_name, album_name, play_count, last_played FROM records ORDER BY play_count DESC LIMIT 5')
+    cur.execute('SELECT artist_name, album_name, play_count, last_played FROM records ORDER BY play_count DESC, last_played DESC LIMIT 5')
     rows = list(cur.fetchall())
 
     con.close()
@@ -246,3 +246,67 @@ def top_genre():
     con.close()
 
     return(genre_output)
+
+
+
+def read_all_filtered(values):
+    con = sqlite3.connect(config.DB_NAME)
+    cur = con.cursor()
+
+    cur.execute('PRAGMA table_info(records)')
+    columns = cur.fetchall()
+
+    b = len(values) - 1
+
+    values = values[1:b]
+
+    values = values.replace("'","")
+
+    # print(values)
+
+    values = list(values.split(", ")) 
+
+    print(values[0])
+    print(values[1])
+
+    column_name = str(values[0])
+    row_value = str(values[1])
+
+    if column_name.lower() == 'artist name' or column_name.lower() == 'artist':
+        column_name = 'artist_name'
+    elif column_name.lower() == 'album name' or column_name.lower() == 'album':
+        column_name = 'album_name'
+    elif column_name.lower() == 'play count' or column_name.lower() == 'play' or column_name.lower() == 'count':
+        column_name = 'play_count'
+    elif column_name.lower() == 'last played' or column_name.lower() == 'last' or column_name.lower() == 'played':
+        column_name = 'last_played'
+    elif column_name.lower() == 'release type' or column_name.lower() == 'release' or column_name.lower() == 'type':
+        column_name = 'release_type'
+    elif column_name.lower() == 'date added' or column_name.lower() == 'added':
+        column_name = 'date_added'
+
+
+
+    cur.execute("""
+        SELECT id,
+                artist_name,
+                album_name,
+                genre,
+                play_count,
+                last_played
+        FROM records
+        WHERE """ + column_name + """ LIKE '%""" + row_value + """%'
+        ORDER BY id""")
+
+    # returns list of rows
+    rows = list(cur.fetchall())
+
+    if rows == []:
+        print('table is empty :(')
+    else:
+        for row in rows:
+            row = list(row)
+
+    con.close()
+
+    return (columns, rows)

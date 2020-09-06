@@ -33,3 +33,10 @@ class BulkUpdate(FlaskForm):
 	genre = wt.StringField('Genre')
 	release_type = wt.StringField('Release Type')
 	submit = wt.SubmitField('Update')
+
+
+
+class Filters(FlaskForm):
+    column_name = wt.StringField('Column Name')
+    row_value = wt.StringField('Row Value')
+    submit = wt.SubmitField('Submit')
