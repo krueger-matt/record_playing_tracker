@@ -86,6 +86,23 @@ def edit_record(id):
 
 
 
+@app.route('/bulk_update/', methods=['GET', 'POST'])
+def bulk_update():
+    form = forms.BulkUpdate(
+        artist_name='',
+        genre='',
+        release_type='')
+
+    if form.is_submitted():
+        result = functions.get_form_data(list(request.form.values()))
+        print (result)
+        functions.bulk_update(result)   
+        return redirect(url_for('my_records_detail'))
+
+    return render_template('bulk_update.html', form=form)
+
+
+
 @app.route('/add_record/', methods=['GET', 'POST'])
 def add_record(): 
 
@@ -111,6 +128,20 @@ def delete_record(id):
     functions.delete_record(id)
     sleep(1)
     return redirect(url_for('my_records_detail'))
+
+
+
+@app.route('/stats/')
+def stats():
+    rows = functions.top_five_records()
+    for row in rows:
+        print(row)
+
+    genre_output = functions.top_genre()
+    for row in genre_output:
+        print(genre_output)
+
+    return render_template('stats.html', rows=rows, genre_output=genre_output)
 
 
 

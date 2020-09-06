@@ -4,8 +4,11 @@
 {% block content %}
 
 <div class="container-fluid" style="padding-bottom: 15px; padding-top: 10px;">
-    <a class="btn btn-primary mt-2" href="{{ url_for('add_record') }}">Add Record</a>
-    <a class="btn btn-outline-secondary mt-2" href="{{ url_for('my_records') }}">Less Detail</a>
+    <div class="sticky-top" position="fixed">
+        <a class="btn btn-primary mt-2" href="{{ url_for('add_record') }}">Add Record</a>
+        <a class="btn btn-secondary mt-2" href="{{ url_for('bulk_update') }}">Bulk Update</a>
+        <a class="btn btn-outline-secondary mt-2" href="{{ url_for('my_records') }}">Less Detail</a>
+    </div>
 </div>
 
 <table class="table table-striped sticky-header">
@@ -40,7 +43,6 @@
         {% endfor %}
     </tbody>
 </table>
-
 
 
 {% endblock %}

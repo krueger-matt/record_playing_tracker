@@ -63,8 +63,7 @@
               <li class="nav-item dropdown {{ 'active' if active_page == 'data_analysis' else '' }}">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Analysis</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenu">
-                        <li><a class="dropdown-item">Charting</a></li>
-                        <li><a class="dropdown-item">Stats</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('stats') }}">Stats</a></li>
                         <li><a class="dropdown-item">Raw SQL Query</a></li>
                     </ul>
               <li class="nav-item {{ 'active' if active_page == 'settings' }}"><a class="nav-link">Settings</a></li>

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% set active_page = "stats" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h4 class="mb-3 text-secondary">Top 5 Most Played Records</h4>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Artist Name</th>
+                <th>Album Name</th>
+                <th>Play Count</th>
+                <th>Last Played</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in rows %}
+                <tr>
+                    <td> {{ item[0] }} </td>
+                    <td> {{ item[1] }} </td>
+                    <td> {{ item[2] }} </td>
+                    <td> {{ item[3] }} </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+    <br>
+    <h4 class="mb-3 text-secondary">Top Genres</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Genre</th>
+                <th>Play Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in genre_output %}
+                <tr>
+                    <td> {{ item[0] }} </td>
+                    <td> {{ item[1] }} </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

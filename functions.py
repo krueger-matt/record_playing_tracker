@@ -193,6 +193,18 @@ def delete_record(id):
 
 
 
+def bulk_update(values):
+
+    con = sqlite3.connect(config.DB_NAME)
+    cur = con.cursor()
+
+    cur.execute('UPDATE records SET genre = ?, release_type = ? WHERE artist_name = ?', (values[1], values[2], values[0]))
+
+    con.commit()
+    con.close()
+
+
+
 def get_form_data(in_list):
 
     output = []
@@ -208,3 +220,29 @@ def get_form_data(in_list):
                 continue
 
     return output
+
+
+
+def top_five_records():
+    con = sqlite3.connect(config.DB_NAME)
+    cur = con.cursor()
+
+    cur.execute('SELECT artist_name, album_name, play_count, last_played FROM records ORDER BY play_count DESC LIMIT 5')
+    rows = list(cur.fetchall())
+
+    con.close()
+
+    return(rows)
+
+
+
+def top_genre():
+    con = sqlite3.connect(config.DB_NAME)
+    cur = con.cursor()
+
+    cur.execute('SELECT genre, sum(play_count) FROM records GROUP BY 1 HAVING sum(play_count) > 0 ORDER BY 2 DESC')
+    genre_output = list(cur.fetchall())
+
+    con.close()
+
+    return(genre_output)
