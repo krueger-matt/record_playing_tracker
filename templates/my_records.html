@@ -12,17 +12,19 @@
 <table class="table table-striped sticky-header">
     <thead>
         <tr>
-            <th>Play Record</th>
-            <th>Un-Play Record</th>
-            <th>Artist Name</th>
-            <th>Album Name</th>
-            <th>Play Count</th>
-            <th>Last Played</th>
+            <th style="width:4%">ID</th>
+            <th style="width:8%">Play Record</th>
+            <th style="width:8%">Un-Play Record</th>
+            <th style="width:25%">Artist Name</th>
+            <th style="width:35%">Album Name</th>
+            <th style="width:10%">Play Count</th>
+            <th style="width:10%">Last Played</th>
         </tr>
     </thead>
     <tbody>
         {% for item in rows %}
             <tr>
+                <td> <a id="{{ item[0] }}"> {{ item[0] }} </a></td>
                 <td><a href="{{ url_for('listen_to_record', id=item[0]) }}" class=""><img src="/static/record.png" class="rounded p-1" height="30"></a></td>
                 <td><a href="{{ url_for('un_listen_to_record', id=item[0]) }}" class=""><img src="/static/un_play.png" class="rounded p-1" height="30"></a></td>
                 <td> {{ item[1] }} </td>

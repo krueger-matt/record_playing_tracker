@@ -236,6 +236,19 @@ def top_five_records():
 
 
 
+def top_five_artists():
+    con = sqlite3.connect(config.DB_NAME)
+    cur = con.cursor()
+
+    cur.execute('SELECT artist_name, sum(play_count) FROM records GROUP BY 1 HAVING sum(play_count) > 0 ORDER BY 2 DESC LIMIT 5')
+    rows = list(cur.fetchall())
+
+    con.close()
+
+    return(rows)
+
+
+
 def top_genre():
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()

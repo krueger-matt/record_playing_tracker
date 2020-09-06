@@ -39,7 +39,7 @@ def my_records_detail():
 def listen_to_record(id):
     functions.listen(id)
     sleep(1)
-    return redirect(url_for('my_records'))
+    return redirect(url_for('my_records',_anchor=id))
 
 
 
@@ -47,7 +47,7 @@ def listen_to_record(id):
 def un_listen_to_record(id):
     functions.un_listen(id)
     sleep(1)
-    return redirect(url_for('my_records'))
+    return redirect(url_for('my_records',_anchor=id))
 
 
 
@@ -137,7 +137,11 @@ def stats():
     for row in genre_output:
         print(genre_output)
 
-    return render_template('stats.html', rows=rows, genre_output=genre_output)
+    artists = functions.top_five_artists()
+    for row in artists:
+        print(artists)
+
+    return render_template('stats.html', rows=rows, genre_output=genre_output, artists=artists)
 
 
 

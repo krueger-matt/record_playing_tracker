@@ -5,8 +5,27 @@
 
 <div class="container-fluid">
 
-    <h4 class="mb-3 text-secondary">Top 5 Most Played Records</h4>
+    <h4 class="mb-3 text-secondary">Top 5 Artists</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Artist</th>
+                <th>Play Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in artists %}
+                <tr>
+                    <td> {{ item[0] }} </td>
+                    <td> {{ item[1] }} </td>
+                </tr>
+            {% endfor %}
 
+        </tbody>
+    </table>
+
+    <br>
+    <h4 class="mb-3 text-secondary">Top 5 Most Played Records</h4>
     <table class="table table-striped">
         <thead>
             <tr>

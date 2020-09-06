@@ -14,22 +14,22 @@
 <table class="table table-striped sticky-header">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Artist Name</th>
-            <th>Album Name</th>
-            <th>Genre</th>
-            <th>Play Count</th>
-            <th>Last Played</th>
-            <th>Ignore</th>
-            <th>Date Added</th>
-            <th>Release Type</th>
-            <th>Edit</th>
+            <th style="width:4%">ID</th>
+            <th style="width:16%">Artist Name</th>
+            <th style="width:26%">Album Name</th>
+            <th style="width:10%">Genre</th>
+            <th style="width:5%">Play Count</th>
+            <th style="width:10%">Last Played</th>
+            <th style="width:5%">Ignore</th>
+            <th style="width:10%">Date Added</th>
+            <th style="width:7%">Release Type</th>
+            <th style="width:7%">Edit</th>
         </tr>
     </thead>
     <tbody>
         {% for item in rows %}
             <tr>
-                <td> <a id="{{ item[0] }}">{{ item[0] }} </a></td>
+                <td> <a id="{{ item[0] }}"> {{ item[0] }} </a></td>
                 <td> {{ item[1] }} </td>
                 <td> {{ item[2] }} </td>
                 <td> {{ item[3] }} </td>
