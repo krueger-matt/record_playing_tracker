@@ -1,5 +1,6 @@
 import config
 import sqlite3
+import re
 from datetime import datetime
 
 def read_all(table):
@@ -285,6 +286,23 @@ def read_all_filtered(values):
     column_name = str(values[0])
     row_value = str(values[1])
 
+    # # Regex to find date if its in row_value
+    # x = re.search("^([0-9][0-9]|19[0-9][0-9]|20[0-9][0-9])(\.|-|/)([1-9]|0[1-9]|1[0-2])(\.|-|/)([1-9]|0[1-9]|1[0-9]|2[0-9]|3[0-1])$",row_value)
+
+    # if x is not None:
+    #     print("hi")
+    #     row_value = "'"+str(x.group())+"'"
+
+    # print(row_value)
+
+
+    greater = '>'
+    less = '<'
+    equal = '='
+    operator = """ LIKE '%"""
+    operator_close = """%'"""
+
+    # Allow user to enter alternative or friendly versions of column names
     if column_name.lower() == 'artist name' or column_name.lower() == 'artist':
         column_name = 'artist_name'
     elif column_name.lower() == 'album name' or column_name.lower() == 'album':
@@ -298,9 +316,32 @@ def read_all_filtered(values):
     elif column_name.lower() == 'date added' or column_name.lower() == 'added':
         column_name = 'date_added'
 
+    # Allow >, <, = for play_count, last_played, and date_added filters
+    if column_name == 'play_count' or column_name == 'id':
+        if greater in row_value or less in row_value or equal in row_value:
+            operator = ' '
+            operator_close = ' '
+    elif column_name == 'last_played' or column_name == 'date_added':
+        print('Starting row_value: '+ row_value)
+        if greater in row_value:
+            operator = greater
+            row_value = row_value.replace('>','')
+        elif less in row_value:
+            operator = less
+            row_value = row_value.replace('<','')
+        elif equal in row_value:
+            operator = equal
+            row_value = row_value.replace('=','')
+        else:
+            operator = equal
 
+        operator_close = ''
+        row_value = row_value.strip()
+        row_value = "'" + row_value + "'"
 
-    cur.execute("""
+        print('New row_value: ' + row_value)
+
+    sql_statement = """
         SELECT id,
                 artist_name,
                 album_name,
@@ -308,8 +349,12 @@ def read_all_filtered(values):
                 play_count,
                 last_played
         FROM records
-        WHERE """ + column_name + """ LIKE '%""" + row_value + """%'
-        ORDER BY id""")
+        WHERE """ + column_name + operator + row_value + operator_close + """
+        ORDER BY id"""
+
+    print(sql_statement)
+
+    cur.execute(sql_statement)
 
     # returns list of rows
     rows = list(cur.fetchall())
@@ -320,6 +365,13 @@ def read_all_filtered(values):
         for row in rows:
             row = list(row)
 
+    # Count records returned
+    cursor = con.execute("""SELECT COUNT(*) FROM records WHERE """ + column_name + operator + row_value + operator_close)
+
+    for value in cursor:
+        count_of_records = int(value[0])
+        print(count_of_records)
+
     con.close()
 
-    return (columns, rows)
+    return (columns, rows, count_of_records)

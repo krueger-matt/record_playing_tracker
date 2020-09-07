@@ -9,6 +9,10 @@ import config
 import functions
 import forms
 
+import matplotlib.pyplot as plt
+import io
+import base64
+
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -166,10 +170,9 @@ def my_records_filtered(result):
 
     print("My Records Filtered Result: " + str(result))
 
-    (columns, rows) = functions.read_all_filtered(result)
-    for row in rows:
-        print(row)
-    return render_template('my_records_filtered.html', columns=columns, rows=rows)
+    (columns, rows, count_of_records) = functions.read_all_filtered(result)
+
+    return render_template('my_records_filtered.html', columns=columns, rows=rows, count_of_records=count_of_records)
 
 
 if __name__ == '__main__':
