@@ -8,8 +8,8 @@
     <h6>Artist Name, Album Name, Genre, and Release Type filters work with 'like' logic</h6>
     <h6>Play Count, Last Played, and Date Added work with comparison operators (>, <, =)</h6>
     <br>
-<div class="container-fluid">
 
+<div class="container-fluid">
     <form method="post" autocomplete="off" enctype="multipart/form-data">
         {% for field in form if (field.name != 'csrf_token') and (field.name != 'submit') %}
             <div class="form row">

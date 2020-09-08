@@ -276,70 +276,94 @@ def read_all_filtered(values):
 
     values = values.replace("'","")
 
-    # print(values)
-
     values = list(values.split(", ")) 
 
     print(values[0])
     print(values[1])
+    print(values[2])
+    print(values[3])
 
     column_name = str(values[0])
     row_value = str(values[1])
-
-    # # Regex to find date if its in row_value
-    # x = re.search("^([0-9][0-9]|19[0-9][0-9]|20[0-9][0-9])(\.|-|/)([1-9]|0[1-9]|1[0-2])(\.|-|/)([1-9]|0[1-9]|1[0-9]|2[0-9]|3[0-1])$",row_value)
-
-    # if x is not None:
-    #     print("hi")
-    #     row_value = "'"+str(x.group())+"'"
-
-    # print(row_value)
-
+    column_name_2 = str(values[2])
+    row_value_2 = str(values[3])
 
     greater = '>'
     less = '<'
     equal = '='
     operator = """ LIKE '%"""
     operator_close = """%'"""
+    operator_2 = """ LIKE '%"""
+    operator_close_2 = """%'"""
 
-    # Allow user to enter alternative or friendly versions of column names
-    if column_name.lower() == 'artist name' or column_name.lower() == 'artist':
-        column_name = 'artist_name'
-    elif column_name.lower() == 'album name' or column_name.lower() == 'album':
-        column_name = 'album_name'
-    elif column_name.lower() == 'play count' or column_name.lower() == 'play' or column_name.lower() == 'count':
-        column_name = 'play_count'
-    elif column_name.lower() == 'last played' or column_name.lower() == 'last' or column_name.lower() == 'played':
-        column_name = 'last_played'
-    elif column_name.lower() == 'release type' or column_name.lower() == 'release' or column_name.lower() == 'type':
-        column_name = 'release_type'
-    elif column_name.lower() == 'date added' or column_name.lower() == 'added':
-        column_name = 'date_added'
+# -------------- WHERE CLAUSE --------------
+    if len(column_name) > 0:
+        # Correct user friendly column name into database column name
+        column_name = column_name.lower().replace(' ', '_')
 
-    # Allow >, <, = for play_count, last_played, and date_added filters
-    if column_name == 'play_count' or column_name == 'id':
-        if greater in row_value or less in row_value or equal in row_value:
-            operator = ' '
-            operator_close = ' '
-    elif column_name == 'last_played' or column_name == 'date_added':
-        print('Starting row_value: '+ row_value)
-        if greater in row_value:
-            operator = greater
-            row_value = row_value.replace('>','')
-        elif less in row_value:
-            operator = less
-            row_value = row_value.replace('<','')
-        elif equal in row_value:
-            operator = equal
-            row_value = row_value.replace('=','')
-        else:
-            operator = equal
+        # Allow >, <, = for play_count, last_played, and date_added filters
+        if column_name == 'play_count' or column_name == 'id':
+            if greater in row_value or less in row_value or equal in row_value:
+                operator = ' '
+                operator_close = ' '
+        elif column_name == 'last_played' or column_name == 'date_added':
+            print('Starting row_value: '+ row_value)
+            if greater in row_value:
+                operator = greater
+                row_value = row_value.replace('>','')
+            elif less in row_value:
+                operator = less
+                row_value = row_value.replace('<','')
+            elif equal in row_value:
+                operator = equal
+                row_value = row_value.replace('=','')
+            else:
+                operator = equal
 
-        operator_close = ''
-        row_value = row_value.strip()
-        row_value = "'" + row_value + "'"
+            operator_close = ''
+            row_value = row_value.strip()
+            row_value = "'" + row_value + "'"
 
-        print('New row_value: ' + row_value)
+            print("Operator: " + str(operator))
+            print('New row_value: ' + row_value)
+
+        where_clause = 'WHERE ' + column_name + operator + row_value + operator_close
+    else:
+        where_clause = ''
+
+    # -------------- AND CLAUSE --------------
+    if len(column_name_2) > 0:
+        column_name_2 = column_name_2.lower().replace(' ', '_')
+
+        # Allow >, <, = for play_count, last_played, and date_added filters
+        if column_name_2 == 'play_count' or column_name_2 == 'id':
+            if greater in row_value_2 or less in row_value_2 or equal in row_value_2:
+                operator_2 = ' '
+                operator_close_2 = ' '
+        elif column_name_2 == 'last_played' or column_name_2 == 'date_added':
+            print('Starting row_value_2: '+ row_value_2)
+            if greater in row_value_2:
+                operator_2 = greater
+                row_value_2 = row_value_2.replace('>','')
+            elif less in row_value_2:
+                operator_2 = less
+                row_value_2 = row_value_2.replace('<','')
+            elif equal in row_value_2:
+                operator_2 = equal
+                row_value_2 = row_value_2.replace('=','')
+            else:
+                operator_2 = equal
+
+            operator_close_2 = ''
+            row_value_2 = row_value_2.strip()
+            row_value_2 = "'" + row_value_2 + "'"
+
+            print("Operator: " + str(operator_2))
+            print('New row_value_2: ' + row_value_2)
+
+        and_clause = ' AND ' + column_name_2 + operator_2 + row_value_2 + operator_close_2
+    else:
+        and_clause = ''
 
     sql_statement = """
         SELECT id,
@@ -349,7 +373,7 @@ def read_all_filtered(values):
                 play_count,
                 last_played
         FROM records
-        WHERE """ + column_name + operator + row_value + operator_close + """
+        """ + where_clause + and_clause + """
         ORDER BY id"""
 
     print(sql_statement)
@@ -366,7 +390,7 @@ def read_all_filtered(values):
             row = list(row)
 
     # Count records returned
-    cursor = con.execute("""SELECT COUNT(*) FROM records WHERE """ + column_name + operator + row_value + operator_close)
+    cursor = con.execute("""SELECT COUNT(*) FROM records """ + where_clause + and_clause)
 
     for value in cursor:
         count_of_records = int(value[0])

@@ -154,7 +154,9 @@ def filters():
 
     form = forms.Filters(
         column_name='',
-        row_value='')
+        row_value='',
+        column_name_2='',
+        row_value_2='')
 
     if form.is_submitted():
         result = functions.get_form_data(list(request.form.values()))
