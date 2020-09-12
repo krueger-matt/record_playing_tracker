@@ -11,7 +11,7 @@ def read_all(table):
     cur.execute('PRAGMA table_info(' + str(table) + ')')
     columns = cur.fetchall()
 
-    cur.execute('SELECT id, artist_name, album_name, play_count, last_played FROM ' + str(table) + ' ORDER BY id')
+    cur.execute('SELECT id, artist_name, album_name, play_count, last_played FROM ' + str(table) + ' ORDER BY artist_name, sort_order')
 
     # returns list of rows
     rows = list(cur.fetchall())
@@ -29,7 +29,6 @@ def read_all(table):
 
 
 def my_records_detail(table):
-    print('----Starting read all----')
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
 
@@ -37,7 +36,7 @@ def my_records_detail(table):
     columns = cur.fetchall()
 
     # returns a tuple of table names in this database
-    cur.execute('SELECT * FROM ' + str(table) + ' order by id')
+    cur.execute('SELECT * FROM ' + str(table) + ' ORDER BY artist_name, sort_order')
 
     # returns list of rows
     rows = list(cur.fetchall())
@@ -165,7 +164,8 @@ def update_record(id, new_values):
                 'play_count = ?,'
                 'last_played = ?,'
                 'ignore = ?,'
-                'release_type = ?'
+                'release_type = ?,'
+                'sort_order = ?'
                 'WHERE ID = ?', new_values)
 
     con.commit()
@@ -178,7 +178,8 @@ def add_record(new_values):
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
 
-    cur.execute('INSERT INTO records (artist_name, album_name, genre, ignore, release_type) VALUES (?,?,?,?,?)', new_values)
+    cur.execute("""INSERT INTO records (artist_name, album_name, genre, ignore, release_type, date_added) VALUES (?,?,?,?,?,date('now'))""", new_values)
+    # cur.execute('UPDATE records SET date_added = date('now') WHERE id = (SELECT max(id) from records)')
 
     con.commit()
     con.close()

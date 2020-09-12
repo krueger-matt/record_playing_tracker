@@ -7,7 +7,6 @@ Currently this is a full list of my records with the ability to mark when one is
 
 Future features:
 
-- Sort order (so albums within an artist's catalog sort in the order you prefer, not by ID)
 - Album artwork
 - Recommendtion on what record to play
 - Discogs link

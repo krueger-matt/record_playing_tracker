@@ -15,15 +15,16 @@
     <thead>
         <tr>
             <th style="width:4%">ID</th>
-            <th style="width:16%">Artist Name</th>
-            <th style="width:26%">Album Name</th>
-            <th style="width:10%">Genre</th>
+            <th style="width:14%">Artist Name</th>
+            <th style="width:23%">Album Name</th>
+            <th style="width:8%">Genre</th>
             <th style="width:5%">Play Count</th>
-            <th style="width:10%">Last Played</th>
+            <th style="width:11%">Last Played</th>
             <th style="width:5%">Ignore</th>
-            <th style="width:10%">Date Added</th>
-            <th style="width:7%">Release Type</th>
-            <th style="width:7%">Edit</th>
+            <th style="width:11%">Date Added</th>
+            <th style="width:6%">Release Type</th>
+            <th style="width:8%">Sort Order</th>
+            <th style="width:5%">Edit</th>
         </tr>
     </thead>
     <tbody>
@@ -38,6 +39,7 @@
                 <td> {{ item[6] }} </td>
                 <td> {{ item[7] }} </td>
                 <td> {{ item[8] }} </td>
+                <td> {{ item[9] }} </td>
                 <td><a href="{{ url_for('edit_record', id=item[0]) }}">Edit</a></td>
             </tr>
         {% endfor %}
