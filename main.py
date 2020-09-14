@@ -7,6 +7,7 @@ from flask import Flask, render_template, url_for, redirect, request
 
 import config
 import functions
+import recommendations
 import forms
 
 import matplotlib.pyplot as plt
@@ -21,13 +22,64 @@ app.config['SECRET_KEY'] = SECRET_KEY
 
 @app.route('/')  # root : main page
 def index():
-    return render_template('index.html')
+    mprows = [('','')]
+    uprows = [('','')]
+    grows = [('','')]
+
+    return render_template('index.html', mprows=mprows, uprows=uprows, grows=grows)
+
+
+
+@app.route('/most_popular/')
+def most_popular():
+    mprows = recommendations.recommendation('most_popular')
+    uprows = [('','')]
+    grows = [('','')]
+    sleep(1)
+    # return redirect(url_for('index.html', rows=rows))
+    return render_template('index.html', mprows=mprows, uprows=uprows, grows=grows)
+
+
+
+@app.route('/un_played/')
+def un_played():
+    mprows = [('','')]
+    uprows = recommendations.recommendation('un_played')
+    grows = [('','')]
+    sleep(1)
+    # return redirect(url_for('index.html', rows=rows))
+    return render_template('index.html', mprows=mprows, uprows=uprows, grows=grows)
+
+
+
+@app.route('/genre', methods=['GET', 'POST'])
+def genre():
+    form = forms.RecommendGenre()
+    genre_result = recommendations.genre()
+    genre_list = []
+    for row in genre_result:
+        genre_list.append(row[0])
+    print (genre_list)
+    form.choice.choices = genre_list
+    mprows = [('','')]
+    uprows = [('','')]
+    grows = [('','')]
+    sleep(1)
+
+    if form.is_submitted():
+        result = functions.get_form_data(list(request.form.values()))
+        print(result)
+        genre = result[0]
+        grows = recommendations.recommend_genre(genre)
+        return render_template('index.html', mprows=mprows, uprows=uprows, grows=grows, form=form)
+
+    return render_template('genre.html', mprows=mprows, uprows=uprows, grows=grows, form=form)
 
 
 
 @app.route('/my_records/')
 def my_records():
-    (columns, rows) = functions.read_all('records')
+    (columns, rows) = functions.read_all()
     return render_template('my_records.html', columns=columns, rows=rows)
 
 

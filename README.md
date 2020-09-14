@@ -7,6 +7,7 @@ Currently this is a full list of my records with the ability to mark when one is
 
 Future features:
 
+- Add <>, >=, <= to filters
 - Album artwork
-- Recommendtion on what record to play
 - Discogs link
+- Pull in price from Discogs API

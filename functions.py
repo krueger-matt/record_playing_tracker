@@ -3,15 +3,20 @@ import sqlite3
 import re
 from datetime import datetime
 
-def read_all(table):
-    print('----Starting read all----')
+def read_all():
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
 
-    cur.execute('PRAGMA table_info(' + str(table) + ')')
+    cur.execute('PRAGMA table_info(records)')
     columns = cur.fetchall()
 
-    cur.execute('SELECT id, artist_name, album_name, play_count, last_played FROM ' + str(table) + ' ORDER BY artist_name, sort_order')
+    cur.execute("""SELECT id, 
+                          artist_name, 
+                          album_name, 
+                          play_count, 
+                          last_played 
+                   FROM records 
+                   ORDER BY artist_name, sort_order""")
 
     # returns list of rows
     rows = list(cur.fetchall())
@@ -234,7 +239,7 @@ def top_five_records():
 
     con.close()
 
-    return(rows)
+    return (rows)
 
 
 
@@ -247,7 +252,7 @@ def top_five_artists():
 
     con.close()
 
-    return(rows)
+    return (rows)
 
 
 
@@ -260,7 +265,7 @@ def top_genre():
 
     con.close()
 
-    return(genre_output)
+    return (genre_output)
 
 
 

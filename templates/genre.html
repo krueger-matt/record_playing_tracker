@@ -21,11 +21,31 @@
 			<td>{{ uprows[0][1] }}</td>
 		</tr>
 		<tr>
-			<td><a class="btn btn-warning mt-2" href="{{ url_for('genre') }}">Genre</a></td>
+			<td><a class="btn btn-warning mt-2">Genre</a></td>
 			<td>{{ grows[0][0] }}</td>
 			<td>{{ grows[0][1] }}</td>
 		</tr>
 	</tbody>
 </table>
+
+<div class="container-fluid">
+
+    <h4 class="mb-3 text-secondary">Select genre</h4>
+
+    <form method="post" autocomplete="off" enctype="multipart/form-data">
+        {% for field in form if (field.name != 'csrf_token') and (field.name != 'submit') %}
+            <div class="form row" style="width: 25%">
+                <div class="col"> {{ field(class="form-control") }} </div>
+            </div>
+        {% endfor %}
+
+        <br>
+        <div class="row">
+            <div class="col-sm">{{ form.submit(class="btn btn-primary", value="Submit") }}</div>
+        </div>
+
+    </form>
+
+</div>
 
 {% endblock %}
