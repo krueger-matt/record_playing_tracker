@@ -11,12 +11,14 @@ def recommendation(query):
         sql_statement = """SELECT artist_name, album_name 
                            FROM records 
                            WHERE play_count > (SELECT max(play_count) FROM records) - 1 
+                           AND ignore <> 1
                            ORDER BY random() 
                            LIMIT 1;"""
     elif query == 'un_played':
         sql_statement = """SELECT artist_name, album_name 
                            FROM records 
                            WHERE play_count = 0
+                           AND ignore <> 1
                            ORDER BY random() 
                            LIMIT 1;"""
 
@@ -47,6 +49,7 @@ def recommend_genre(genre):
     sql_statement = """SELECT artist_name, album_name 
                        FROM records 
                        WHERE genre = '""" + genre + """'
+                       AND ignore <> 1
                        ORDER BY random() 
                        LIMIT 1;"""
 
