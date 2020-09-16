@@ -11,3 +11,4 @@ Future features:
 - Album artwork
 - Discogs link
 - Pull in price from Discogs API
+- Record recommendor - add checkbox to avoid singles and EPs

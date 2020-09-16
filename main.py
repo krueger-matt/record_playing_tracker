@@ -10,10 +10,6 @@ import functions
 import recommendations
 import forms
 
-import matplotlib.pyplot as plt
-import io
-import base64
-
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY

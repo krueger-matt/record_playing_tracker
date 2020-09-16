@@ -1,6 +1,5 @@
 import config
 import sqlite3
-import re
 from datetime import datetime
 
 def read_all():
