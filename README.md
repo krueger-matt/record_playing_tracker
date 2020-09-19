@@ -7,7 +7,7 @@ Currently this is a full list of my records with the ability to mark when one is
 
 Future features:
 
-- Add <>, >=, <= to filters
+- Display artist name and backend artist name to help with sorting and showing artists (example display The Smashing Pumpkins or Smashing Pumpkins depending on the album, but in the backend, always sort just by Smashing Pumpkins)
 - Album artwork
 - Discogs link
 - Pull in price from Discogs API

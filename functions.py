@@ -294,14 +294,18 @@ def read_all_filtered(values):
     row_value_2 = str(values[3])
 
     greater = '>'
+    greater_equal = '>='
     less = '<'
+    less_equal = '<='
     equal = '='
+    not_equal = '<>'
     operator = """ LIKE '%"""
     operator_close = """%'"""
     operator_2 = """ LIKE '%"""
     operator_close_2 = """%'"""
+    order_by = 'id'
 
-# -------------- WHERE CLAUSE --------------
+    # -------------- WHERE CLAUSE --------------
     if len(column_name) > 0:
         # Correct user friendly column name into database column name
         column_name = column_name.lower().replace(' ', '_')
@@ -313,9 +317,18 @@ def read_all_filtered(values):
                 operator_close = ' '
         elif column_name == 'last_played' or column_name == 'date_added':
             print('Starting row_value: '+ row_value)
-            if greater in row_value:
+            if not_equal in row_value:
+                operator = not_equal
+                row_value = row_value.replace('<>','')
+            elif greater_equal in row_value:
+                operator = greater_equal
+                row_value = row_value.replace('>=','')
+            elif greater in row_value:
                 operator = greater
                 row_value = row_value.replace('>','')
+            elif less_equal in row_value:
+                operator = less_equal
+                row_value = row_value.replace('<=','')
             elif less in row_value:
                 operator = less
                 row_value = row_value.replace('<','')
@@ -329,8 +342,13 @@ def read_all_filtered(values):
             row_value = row_value.strip()
             row_value = "'" + row_value + "'"
 
+            order_by = column_name + ' desc'
+
             print("Operator: " + str(operator))
             print('New row_value: ' + row_value)
+
+        if column_name == 'play_count':
+            order_by = column_name + ' desc, last_played desc'
 
         where_clause = 'WHERE ' + column_name + operator + row_value + operator_close
     else:
@@ -347,9 +365,18 @@ def read_all_filtered(values):
                 operator_close_2 = ' '
         elif column_name_2 == 'last_played' or column_name_2 == 'date_added':
             print('Starting row_value_2: '+ row_value_2)
-            if greater in row_value_2:
+            if not_equal in row_value_2:
+                operator_2 = not_equal
+                row_value_2 = row_value_2.replace('<>','')
+            elif greater_equal in row_value_2:
+                operator_2 = greater_equal
+                row_value_2 = row_value_2.replace('>=','')
+            elif greater in row_value_2:
                 operator_2 = greater
                 row_value_2 = row_value_2.replace('>','')
+            elif less_equal in row_value_2:
+                operator_2 = less_equal
+                row_value_2 = row_value_2.replace('<=','')
             elif less in row_value_2:
                 operator_2 = less
                 row_value_2 = row_value_2.replace('<','')
@@ -378,8 +405,7 @@ def read_all_filtered(values):
                 play_count,
                 last_played
         FROM records
-        """ + where_clause + and_clause + """
-        ORDER BY id"""
+        """ + where_clause + and_clause + """ ORDER BY """ + order_by
 
     print(sql_statement)
 
@@ -389,7 +415,7 @@ def read_all_filtered(values):
     rows = list(cur.fetchall())
 
     if rows == []:
-        print('table is empty :(')
+        print('No results!')
     else:
         for row in rows:
             row = list(row)

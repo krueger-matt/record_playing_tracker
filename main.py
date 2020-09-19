@@ -16,7 +16,7 @@ app.config['SECRET_KEY'] = SECRET_KEY
 
 
 
-@app.route('/')  # root : main page
+@app.route('/')
 def index():
     mprows = [('','')]
     uprows = [('','')]
@@ -32,7 +32,6 @@ def most_popular():
     uprows = [('','')]
     grows = [('','')]
     sleep(1)
-    # return redirect(url_for('index.html', rows=rows))
     return render_template('index.html', mprows=mprows, uprows=uprows, grows=grows)
 
 
@@ -43,7 +42,6 @@ def un_played():
     uprows = recommendations.recommendation('un_played')
     grows = [('','')]
     sleep(1)
-    # return redirect(url_for('index.html', rows=rows))
     return render_template('index.html', mprows=mprows, uprows=uprows, grows=grows)
 
 
