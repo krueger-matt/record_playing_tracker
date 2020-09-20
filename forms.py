@@ -38,7 +38,7 @@ class BulkUpdate(FlaskForm):
 
 
 class Filters(FlaskForm):
-    column_name = wt.SelectField(u'Column 1', choices=['Artist Name','Album Name','Genre','Release Type','Play Count','Last Played','Date Added','ID','Ignore'])
+    column_name = wt.SelectField('Column 1', choices=['Artist Name','Album Name','Genre','Release Type','Play Count','Last Played','Date Added','ID','Ignore'])
     row_value = wt.StringField('Row Value 1')
     column_name_2 = wt.SelectField('Column 2', choices=['','Artist Name','Album Name','Genre','Release Type','Play Count','Last Played','Date Added','ID','Ignore'])
     row_value_2 = wt.StringField('Row Value 2')
@@ -48,6 +48,12 @@ class Filters(FlaskForm):
 
 class RecommendGenre(FlaskForm):
     choice = wt.SelectField()
+    submit = wt.SubmitField()
+
+
+
+class CustomSQL(FlaskForm):
+    text = wt.TextAreaField(render_kw={'class': 'form-control', 'rows': 5})
     submit = wt.SubmitField()
 
 

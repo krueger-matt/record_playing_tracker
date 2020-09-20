@@ -223,5 +223,28 @@ def my_records_filtered(result):
     return render_template('my_records_filtered.html', columns=columns, rows=rows, count_of_records=count_of_records)
 
 
+
+@app.route('/custom_sql/', methods=['GET', 'POST'])
+def custom_sql():
+    form = forms.CustomSQL(
+        text='')
+
+    if form.is_submitted():
+        result = functions.get_form_data(list(request.form.values()))
+        print(result)
+        return redirect(url_for('custom_sql_result', result=result))
+
+    return render_template('custom_sql.html', form=form)
+
+
+
+@app.route('/custom_sql_result/<result>', methods=['GET', 'POST'])
+def custom_sql_result(result):
+    print(result)
+    (columns, rows) = functions.custom_sql_query(result)
+    return render_template('custom_sql_result.html', columns=columns, rows=rows)
+
+
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

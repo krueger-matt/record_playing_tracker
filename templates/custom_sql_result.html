@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% set active_page = "my_records" %}
+
+{% block content %}
+
+<table class="table table-striped sticky-header">
+    <thead>
+        {% for col in columns %}
+            <th>{{ col }}</th>
+        {% endfor %}
+    </thead>
+    <tbody>
+        {% for row in rows %}
+            <tr>
+                {% for item in row  %}
+                <td> {{ item }} </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

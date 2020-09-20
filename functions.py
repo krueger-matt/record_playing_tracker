@@ -57,6 +57,48 @@ def my_records_detail(table):
 
 
 
+def custom_sql_query(values):
+    con = sqlite3.connect(config.DB_NAME)
+    cur = con.cursor()
+
+    values = values.replace('\\r\\n',' ')
+
+    start_string = values.lower().find('select') +7
+    end_string = values.lower().find('from') - 1
+
+    new_string = values[start_string:end_string]
+
+    if new_string == '*' or new_string == '* ':
+        cur.execute("""SELECT name FROM PRAGMA_TABLE_INFO('records')""")
+        columns = cur.fetchall()
+    else:
+        columns = new_string.split(', ')
+
+    print(columns)
+
+    print(values)
+
+    sql_statement = values[2:-2]
+
+    print(sql_statement)
+
+    cur.execute(sql_statement)
+
+    # returns list of rows
+    rows = list(cur.fetchall())
+
+    if rows == []:
+        print('table is empty :(')
+    else:
+        for row in rows:
+            row = list(row)
+
+    con.close()
+
+    return (columns, rows)
+
+
+
 def listen(id):
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
