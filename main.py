@@ -18,9 +18,9 @@ app.config['SECRET_KEY'] = SECRET_KEY
 
 @app.route('/')
 def index():
-    mprows = [('','')]
-    uprows = [('','')]
-    grows = [('','')]
+    mprows = [('','','')]
+    uprows = [('','','')]
+    grows = [('','','')]
 
     return render_template('index.html', mprows=mprows, uprows=uprows, grows=grows)
 
@@ -29,8 +29,8 @@ def index():
 @app.route('/most_popular/')
 def most_popular():
     mprows = recommendations.recommendation('most_popular')
-    uprows = [('','')]
-    grows = [('','')]
+    uprows = [('','','')]
+    grows = [('','','')]
     sleep(1)
     return render_template('index.html', mprows=mprows, uprows=uprows, grows=grows)
 
@@ -38,9 +38,9 @@ def most_popular():
 
 @app.route('/un_played/')
 def un_played():
-    mprows = [('','')]
+    mprows = [('','','')]
     uprows = recommendations.recommendation('un_played')
-    grows = [('','')]
+    grows = [('','','')]
     sleep(1)
     return render_template('index.html', mprows=mprows, uprows=uprows, grows=grows)
 
@@ -55,9 +55,9 @@ def genre():
         genre_list.append(row[0])
     print (genre_list)
     form.choice.choices = genre_list
-    mprows = [('','')]
-    uprows = [('','')]
-    grows = [('','')]
+    mprows = [('','','')]
+    uprows = [('','','')]
+    grows = [('','','')]
     sleep(1)
 
     if form.is_submitted():

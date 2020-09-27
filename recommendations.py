@@ -8,14 +8,14 @@ def recommendation(query):
     cur = con.cursor()
 
     if query == 'most_popular':
-        sql_statement = """SELECT artist_name, album_name 
+        sql_statement = """SELECT id, artist_name, album_name 
                            FROM records 
                            WHERE play_count > (SELECT max(play_count) FROM records) - 1 
                            AND ignore <> 1
                            ORDER BY random() 
                            LIMIT 1;"""
     elif query == 'un_played':
-        sql_statement = """SELECT artist_name, album_name 
+        sql_statement = """SELECT id, artist_name, album_name 
                            FROM records 
                            WHERE play_count = 0
                            AND ignore <> 1
@@ -46,7 +46,7 @@ def genre():
 def recommend_genre(genre):
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
-    sql_statement = """SELECT artist_name, album_name 
+    sql_statement = """SELECT id, artist_name, album_name 
                        FROM records 
                        WHERE genre = '""" + genre + """'
                        AND ignore <> 1

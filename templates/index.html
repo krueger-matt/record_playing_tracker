@@ -8,22 +8,38 @@
 		<th style="width:30%">Need a recommendation? Push one of the buttons below!</th>
 		<th style="width:25%">Artist</th>
 		<th style="width:25%">Album</th>
+		<th style="width:10%">Listen?</th>
 	</thead>
 	<tbody>
 		<tr>
 			<td><a class="btn btn-success mt-2" href="{{ url_for('most_popular') }}">Popular</a></td>
-			<td>{{ mprows[0][0] }}</td>
 			<td>{{ mprows[0][1] }}</td>
+			<td>{{ mprows[0][2] }}</td>
+			{% if mprows[0][0] != '' %}
+			<td><a href="{{ url_for('listen_to_record', id=mprows[0][0]) }}" class=""><img src="/static/record.png" class="rounded p-1" height="30"></a></td>
+			{% else %}
+			<td></td>
+			{% endif %}
 		</tr>
 		<tr>
 			<td><a class="btn btn-primary mt-2" href="{{ url_for('un_played') }}">Un-played</a></td>
-			<td>{{ uprows[0][0] }}</td>
 			<td>{{ uprows[0][1] }}</td>
+			<td>{{ uprows[0][2] }}</td>
+			{% if uprows[0][0] != '' %}
+			<td><a href="{{ url_for('listen_to_record', id=uprows[0][0]) }}" class=""><img src="/static/record.png" class="rounded p-1" height="30"></a></td>
+			{% else %}
+			<td></td>
+			{% endif %}
 		</tr>
 		<tr>
 			<td><a class="btn btn-warning mt-2" href="{{ url_for('genre') }}">Genre</a></td>
-			<td>{{ grows[0][0] }}</td>
 			<td>{{ grows[0][1] }}</td>
+			<td>{{ grows[0][2] }}</td>
+			{% if grows[0][0] != '' %}
+			<td><a href="{{ url_for('listen_to_record', id=grows[0][0]) }}" class=""><img src="/static/record.png" class="rounded p-1" height="30"></a></td>
+			{% else %}
+			<td></td>
+			{% endif %}
 		</tr>
 	</tbody>
 </table>
