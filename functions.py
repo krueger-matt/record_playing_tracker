@@ -224,7 +224,7 @@ def add_record(new_values):
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
 
-    cur.execute("""INSERT INTO records (artist_name, album_name, genre, ignore, release_type, date_added) VALUES (?,?,?,?,?,date('now'))""", new_values)
+    cur.execute("""INSERT INTO records (artist_name, album_name, genre, ignore, release_type, date_added, play_count, last_played) VALUES (?,?,?,?,?,date('now'),0,'')""", new_values)
     # cur.execute('UPDATE records SET date_added = date('now') WHERE id = (SELECT max(id) from records)')
 
     con.commit()
