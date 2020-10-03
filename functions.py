@@ -71,6 +71,8 @@ def custom_sql_query(values):
     if new_string == '*' or new_string == '* ':
         cur.execute("""SELECT name FROM PRAGMA_TABLE_INFO('records')""")
         columns = cur.fetchall()
+        # Convert columns from list of tuples to just a list
+        columns = [item for t in columns for item in t]
     else:
         columns = new_string.split(', ')
 
