@@ -12,3 +12,4 @@ Future features:
 - Discogs link
 - Pull in price from Discogs API
 - Record recommendor - add checkbox to avoid singles and EPs
+- Show user the query they wrote when Custom SQL functionality is used
