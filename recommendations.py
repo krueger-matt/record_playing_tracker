@@ -44,20 +44,42 @@ def recommendation(query):
 
 
 
+# This returns a list of genres
+# Albums can be categorized as multiple genres. This list just pulls the distinct individual genres
 def genre():
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
 
-    sql_statement = """SELECT distinct genre FROM records ORDER BY 1"""
+    sql_statement = """SELECT distinct genre FROM records where ignore <> 1 ORDER BY 1"""
 
     cur.execute(sql_statement)
 
     rows = cur.fetchall()
 
-    for row in rows:
-        print(row[0])
+    genre_list = []
 
-    return (rows)
+    for row in rows:
+        genre_list.append(row[0])
+
+    genre_string = ''
+
+    # Convert the list to a string so comma separated values can be truly split
+    for x in genre_list:
+        x = x +','
+        genre_string += x
+
+    genre_list = list(genre_string.split(','))
+    genre_list = [x.strip(' ') for x in genre_list]
+
+    unique_list = []
+
+    # There are duplicates in the list after it was split, so create a new version that is only uniques
+    for x in genre_list:
+        if x not in unique_list:
+            unique_list.append(x)
+
+    # Sorted sorts the list from a-z
+    return (sorted(unique_list))
 
 
 
@@ -66,7 +88,7 @@ def recommend_genre(genre):
     cur = con.cursor()
     sql_statement = """SELECT id, artist_name, album_name 
                        FROM records 
-                       WHERE genre = '""" + genre + """'
+                       WHERE genre like '%""" + genre + """%'
                        AND ignore <> 1
                        ORDER BY random() 
                        LIMIT 1;"""

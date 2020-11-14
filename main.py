@@ -49,12 +49,7 @@ def un_played():
 @app.route('/genre', methods=['GET', 'POST'])
 def genre():
     form = forms.RecommendGenre()
-    genre_result = recommendations.genre()
-    genre_list = []
-    for row in genre_result:
-        genre_list.append(row[0])
-    print (genre_list)
-    form.choice.choices = genre_list
+    form.choice.choices = recommendations.genre()
     mprows = [('','','')]
     uprows = [('','','')]
     grows = [('','','')]
