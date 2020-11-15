@@ -110,12 +110,14 @@ def edit_record(id):
 
     form = forms.EditRecord(
         artist_name=row[1],
+        artist_name_sort=row[10],
         album_name=row[2],
         genre=row[3],
         play_count=row[4],
         last_played=last_played,
         ignore=row[6],
-        release_type=row[8])
+        release_type=row[8],
+        sort_order=row[9])
 
     if form.is_submitted():
         result = functions.get_form_data(list(request.form.values()))
@@ -149,6 +151,7 @@ def add_record():
 
     form = forms.AddRecord(
         artist_name='',
+        artist_name_sort='',
         album_name='',
         genre='',
         ignore='',

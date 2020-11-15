@@ -7,7 +7,8 @@ import functions
 
 
 class EditRecord(FlaskForm):
-    artist_name = wt.StringField('Artist Name')
+    artist_name = wt.StringField('Artist Name (Display)')
+    artist_name_sort = wt.StringField('Artist Name (Sort)')
     album_name = wt.StringField('Album Name')
     genre = wt.StringField('Genre')
     play_count = wt5.IntegerField('Play Count')
@@ -20,7 +21,8 @@ class EditRecord(FlaskForm):
 
 
 class AddRecord(FlaskForm):
-    artist_name = wt.StringField('Artist Name')
+    artist_name = wt.StringField('Artist Name (Display)')
+    artist_name_sort = wt.StringField('Artist Name (Sort)')
     album_name = wt.StringField('Album Name')
     genre = wt.StringField('Genre')
     ignore = wt5.IntegerField('Ignore?')

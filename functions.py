@@ -15,7 +15,7 @@ def read_all():
                           play_count, 
                           last_played 
                    FROM records 
-                   ORDER BY artist_name, sort_order""")
+                   ORDER BY artist_name_sort, sort_order""")
 
     # returns list of rows
     rows = list(cur.fetchall())
@@ -40,7 +40,7 @@ def my_records_detail(table):
     columns = cur.fetchall()
 
     # returns a tuple of table names in this database
-    cur.execute('SELECT * FROM ' + str(table) + ' ORDER BY artist_name, sort_order')
+    cur.execute('SELECT * FROM ' + str(table) + ' ORDER BY artist_name_sort, sort_order')
 
     # returns list of rows
     rows = list(cur.fetchall())
@@ -207,6 +207,7 @@ def update_record(id, new_values):
     cur.execute('UPDATE records '
                 'SET '
                 'artist_name = ?, '
+                'artist_name_sort = ?, '
                 'album_name = ?,'
                 'genre = ?,'
                 'play_count = ?,'
@@ -226,7 +227,7 @@ def add_record(new_values):
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
 
-    cur.execute("""INSERT INTO records (artist_name, album_name, genre, ignore, release_type, date_added, play_count, last_played) VALUES (?,?,?,?,?,date('now'),0,'')""", new_values)
+    cur.execute("""INSERT INTO records (artist_name, artist_name_sort, album_name, genre, ignore, release_type, date_added, play_count, last_played, sort_order) VALUES (?,?,?,?,?,?,date('now'),0,'','')""", new_values)
     # cur.execute('UPDATE records SET date_added = date('now') WHERE id = (SELECT max(id) from records)')
 
     con.commit()
@@ -290,7 +291,7 @@ def top_five_artists():
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
 
-    cur.execute('SELECT artist_name, sum(play_count) FROM records GROUP BY 1 HAVING sum(play_count) > 0 ORDER BY 2 DESC LIMIT 5')
+    cur.execute('SELECT artist_name_sort, sum(play_count) FROM records GROUP BY 1 HAVING sum(play_count) > 0 ORDER BY 2 DESC LIMIT 5')
     rows = list(cur.fetchall())
 
     con.close()

@@ -33,6 +33,7 @@ def recommendation(query):
                            FROM records 
                            WHERE play_count = 0
                            AND ignore <> 1
+                           AND release_type <> 'Single'
                            ORDER BY random() 
                            LIMIT 1;"""
 
@@ -50,7 +51,7 @@ def genre():
     con = sqlite3.connect(config.DB_NAME)
     cur = con.cursor()
 
-    sql_statement = """SELECT distinct genre FROM records where ignore <> 1 ORDER BY 1"""
+    sql_statement = """SELECT distinct genre FROM records WHERE ignore <> 1 AND release_type <> 'Single' ORDER BY 1"""
 
     cur.execute(sql_statement)
 
@@ -90,6 +91,7 @@ def recommend_genre(genre):
                        FROM records 
                        WHERE genre like '%""" + genre + """%'
                        AND ignore <> 1
+                       AND release_type <> 'Single'
                        ORDER BY random() 
                        LIMIT 1;"""
 
