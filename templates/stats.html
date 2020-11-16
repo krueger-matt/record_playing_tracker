@@ -36,12 +36,34 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in rows %}
+            {% for item in top_five %}
                 <tr>
                     <td> {{ item[0] }} </td>
                     <td> {{ item[1] }} </td>
                     <td> {{ item[2] }} </td>
                     <td> {{ item[3] }} </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+    <br>
+    <h4 class="mb-3 text-secondary">Recently Played Records</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Artist Name</th>
+                <th>Album Name</th>
+                <th>Last Played</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in recents %}
+                <tr>
+                    <td> {{ item[0] }} </td>
+                    <td> {{ item[1] }} </td>
+                    <td> {{ item[2] }} </td>
                 </tr>
             {% endfor %}
 
@@ -58,7 +80,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in genre_output %}
+            {% for item in genre %}
                 <tr>
                     <td> {{ item[0] }} </td>
                     <td> {{ item[1] }} </td>

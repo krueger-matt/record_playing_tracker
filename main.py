@@ -177,19 +177,15 @@ def delete_record(id):
 
 @app.route('/stats/')
 def stats():
-    rows = functions.top_five_records()
-    for row in rows:
-        print(row)
+    top_five = functions.top_five_records()
 
-    genre_output = functions.top_genre()
-    for row in genre_output:
-        print(genre_output)
+    genre = functions.top_genre()
 
     artists = functions.top_five_artists()
-    for row in artists:
-        print(artists)
 
-    return render_template('stats.html', rows=rows, genre_output=genre_output, artists=artists)
+    recents = functions.recent_plays()
+
+    return render_template('stats.html', top_five=top_five, genre=genre, artists=artists, recents=recents)
 
 
 
